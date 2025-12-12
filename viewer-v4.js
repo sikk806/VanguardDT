@@ -156,6 +156,8 @@ let cameras = [
 ];
 
 let camera = cameras[0];
+let mouseOpLock = false;
+let down = 0;
 
 function getProjectionMatrix(fx, fy, width, height) {
     const znear = 0.2;
