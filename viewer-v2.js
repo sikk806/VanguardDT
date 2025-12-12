@@ -1181,7 +1181,15 @@ async function main() {
             fileInput.click();
         });
     }
-
+    
+    // === Detect whether a file is PLY format ===
+    function isPly(data) {
+        // ply 파일은 "ply\n" 로 시작하므로 그걸 체크함
+        if (!data || data.length < 4) return false;
+    
+        const header = new TextDecoder().decode(data.slice(0, 10));
+        return header.startsWith("ply");
+    }
 
     function readFile(file) {
         const reader = new FileReader();
