@@ -409,11 +409,6 @@ function createWorker(self) {
     }
 
     function runSort(viewProj) {
-        console.log("[runSort] buffer ctor:", buffer?.constructor?.name);
-        console.log("[runSort] byteLength:", (buffer instanceof ArrayBuffer) ? buffer.byteLength : buffer?.byteLength);
-        console.log("[runSort] byteOffset(mod4):", (ArrayBuffer.isView(buffer) ? (buffer.byteOffset % 4) : 0),
-                    "byteLength(mod4):", (((buffer instanceof ArrayBuffer) ? buffer.byteLength : buffer?.byteLength) ?? 0) % 4);
-
         if (!buffer) return;
         const f_buffer = new Float32Array(buffer);
         if (lastVertexCount == vertexCount) {
