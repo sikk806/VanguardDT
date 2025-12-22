@@ -835,7 +835,6 @@ async function main() {
     gl.vertexAttribDivisor(a_index, 1);
 
     const resize = () => {
-        if (!camera) return;
         gl.uniform2fv(u_focal, new Float32Array([camera.fx, camera.fy]));
 
         projectionMatrix = getProjectionMatrix(
@@ -1369,7 +1368,11 @@ async function main() {
         lastFrame = now;
         requestAnimationFrame(frame);
     };
-
+    
+    if (!camera) camera = cameras?.[0];
+    if (!camera) throw new Error("camera is undefined before frame()");
+    if (!viewMatrix) viewMatrix = getViewMatrix(camera);
+    
     frame();
 
     const isPly = (splatData) =>
