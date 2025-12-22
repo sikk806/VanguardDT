@@ -835,6 +835,7 @@ async function main() {
     gl.vertexAttribDivisor(a_index, 1);
 
     const resize = () => {
+        if (!camera) return;
         gl.uniform2fv(u_focal, new Float32Array([camera.fx, camera.fy]));
 
         projectionMatrix = getProjectionMatrix(
