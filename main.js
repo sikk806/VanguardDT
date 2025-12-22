@@ -184,15 +184,6 @@ function getViewMatrix(camera) {
     ].flat();
     return camToWorld;
 }
-// function translate4(a, x, y, z) {
-//     return [
-//         ...a.slice(0, 12),
-//         a[0] * x + a[4] * y + a[8] * z + a[12],
-//         a[1] * x + a[5] * y + a[9] * z + a[13],
-//         a[2] * x + a[6] * y + a[10] * z + a[14],
-//         a[3] * x + a[7] * y + a[11] * z + a[15],
-//     ];
-// }
 
 function multiply4(a, b) {
     return [
@@ -736,7 +727,6 @@ let defaultViewMatrix = [
     0.03, 6.55, 1,
 ];
 let viewMatrix = defaultViewMatrix;
-
 async function main() {
     let carousel = true;
     const params = new URLSearchParams(location.search);
@@ -744,32 +734,26 @@ async function main() {
         viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
         carousel = false;
     } catch (err) {}
-
     const url = new URL(
+        // "nike.splat",
+        // location.href,
         params.get("url") || "train.splat",
         "https://huggingface.co/cakewalk/splat-data/resolve/main/",
     );
-
     const req = await fetch(url, {
-        mode: "cors",
-        credentials: "omit",
+        mode: "cors", // no-cors, *cors, same-origin
+        credentials: "omit", // include, *same-origin, omit
     });
-
     console.log(req);
-    if (req.status != 200) throw new Error(req.status + " Unable to load " + req.url);
+    if (req.status != 200)
+        throw new Error(req.status + " Unable to load " + req.url);
 
     const rowLength = 3 * 4 + 3 * 4 + 4 + 4;
     const reader = req.body.getReader();
+    let splatData = new Uint8Array(0);
 
-    // ✅ B안: splatData는 나중에 최종 버퍼로 한 번에 만든다
-    let splatData;
-    let chunks = [];
-    let bytesRead = 0;
-    let stopLoading = false;
-
-    // content-length는 "참고용"으로만 (gzip이면 실제 바이트와 다를 수 있음)
-    const contentLengthHeader = req.headers.get("content-length");
-    const expectedBytes = contentLengthHeader ? parseInt(contentLengthHeader) : null;
+    const downsample = 1;
+    console.log(splatData.length / rowLength, downsample);
 
     const worker = new Worker(
         URL.createObjectURL(
@@ -810,8 +794,9 @@ async function main() {
     if (!gl.getProgramParameter(program, gl.LINK_STATUS))
         console.error(gl.getProgramInfoLog(program));
 
-    gl.disable(gl.DEPTH_TEST);
+    gl.disable(gl.DEPTH_TEST); // Disable depth testing
 
+    // Enable blending
     gl.enable(gl.BLEND);
     gl.blendFuncSeparate(
         gl.ONE_MINUS_DST_ALPHA,
@@ -826,6 +811,7 @@ async function main() {
     const u_focal = gl.getUniformLocation(program, "focal");
     const u_view = gl.getUniformLocation(program, "view");
 
+    // positions
     const triangleVertices = new Float32Array([-2, -2, 2, -2, 2, 2, -2, 2]);
     const vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -848,11 +834,7 @@ async function main() {
     gl.vertexAttribIPointer(a_index, 1, gl.INT, false, 0, 0);
     gl.vertexAttribDivisor(a_index, 1);
 
-    // downsample은 파일 로드 후 결정 (초기값)
-    let downsample = 1;
-
     const resize = () => {
-        // camera는 외부에 이미 정의되어 있다는 전제 그대로 유지
         gl.uniform2fv(u_focal, new Float32Array([camera.fx, camera.fy]));
 
         projectionMatrix = getProjectionMatrix(
@@ -874,8 +856,6 @@ async function main() {
     window.addEventListener("resize", resize);
     resize();
 
-    let vertexCount = 0;
-
     worker.onmessage = (e) => {
         if (e.data.buffer) {
             splatData = new Uint8Array(e.data.buffer);
@@ -891,9 +871,18 @@ async function main() {
             }
         } else if (e.data.texdata) {
             const { texdata, texwidth, texheight } = e.data;
+            // console.log(texdata)
             gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_S,
+                gl.CLAMP_TO_EDGE,
+            );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_T,
+                gl.CLAMP_TO_EDGE,
+            );
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
@@ -911,18 +900,18 @@ async function main() {
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, texture);
         } else if (e.data.depthIndex) {
-            const { depthIndex } = e.data;
+            const { depthIndex, viewProj } = e.data;
             gl.bindBuffer(gl.ARRAY_BUFFER, indexBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, depthIndex, gl.DYNAMIC_DRAW);
             vertexCount = e.data.vertexCount;
         }
     };
 
-    // --- 입력/컨트롤 관련 코드는 원본 유지 ---
     let activeKeys = [];
     let currentCameraIndex = 0;
 
     window.addEventListener("keydown", (e) => {
+        // if (document.activeElement != document.body) return;
         carousel = false;
         if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
         if (/\d/.test(e.key)) {
@@ -942,7 +931,10 @@ async function main() {
         camid.innerText = "cam  " + currentCameraIndex;
         if (e.code == "KeyV") {
             location.hash =
-                "#" + JSON.stringify(viewMatrix.map((k) => Math.round(k * 100) / 100));
+                "#" +
+                JSON.stringify(
+                    viewMatrix.map((k) => Math.round(k * 100) / 100),
+                );
             camid.innerText = "";
         } else if (e.code === "KeyP") {
             carousel = true;
@@ -956,27 +948,406 @@ async function main() {
         activeKeys = [];
     });
 
-    // ... (중간 입력 처리/휠/마우스/터치 코드는 질문에 포함된 원본 그대로 두면 됩니다)
-    // 이 답변에서는 길이 때문에 생략했지만, 너의 기존 코드 블록을 그대로 유지하면 됩니다.
+    window.addEventListener(
+        "wheel",
+        (e) => {
+            carousel = false;
+            e.preventDefault();
+            const lineHeight = 10;
+            const scale =
+                e.deltaMode == 1
+                    ? lineHeight
+                    : e.deltaMode == 2
+                      ? innerHeight
+                      : 1;
+            let inv = invert4(viewMatrix);
+            if (e.shiftKey) {
+                inv = translate4(
+                    inv,
+                    (e.deltaX * scale) / innerWidth,
+                    (e.deltaY * scale) / innerHeight,
+                    0,
+                );
+            } else if (e.ctrlKey || e.metaKey) {
+                // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
+                // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
+                // let preY = inv[13];
+                inv = translate4(
+                    inv,
+                    0,
+                    0,
+                    (-10 * (e.deltaY * scale)) / innerHeight,
+                );
+                // inv[13] = preY;
+            } else {
+                let d = 4;
+                inv = translate4(inv, 0, 0, d);
+                inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
+                inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
+                inv = translate4(inv, 0, 0, -d);
+            }
 
-    // --- 렌더 루프는 원본 유지 ---
+            viewMatrix = invert4(inv);
+        },
+        { passive: false },
+    );
+
+    let startX, startY, down;
+    canvas.addEventListener("mousedown", (e) => {
+        carousel = false;
+        e.preventDefault();
+        startX = e.clientX;
+        startY = e.clientY;
+        down = e.ctrlKey || e.metaKey ? 2 : 1;
+    });
+    canvas.addEventListener("contextmenu", (e) => {
+        carousel = false;
+        e.preventDefault();
+        startX = e.clientX;
+        startY = e.clientY;
+        down = 2;
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+        e.preventDefault();
+        if (down == 1) {
+            let inv = invert4(viewMatrix);
+            let dx = (5 * (e.clientX - startX)) / innerWidth;
+            let dy = (5 * (e.clientY - startY)) / innerHeight;
+            let d = 4;
+
+            inv = translate4(inv, 0, 0, d);
+            inv = rotate4(inv, dx, 0, 1, 0);
+            inv = rotate4(inv, -dy, 1, 0, 0);
+            inv = translate4(inv, 0, 0, -d);
+            // let postAngle = Math.atan2(inv[0], inv[10])
+            // inv = rotate4(inv, postAngle - preAngle, 0, 0, 1)
+            // console.log(postAngle)
+            viewMatrix = invert4(inv);
+
+            startX = e.clientX;
+            startY = e.clientY;
+        } else if (down == 2) {
+            let inv = invert4(viewMatrix);
+            // inv = rotateY(inv, );
+            // let preY = inv[13];
+            inv = translate4(
+                inv,
+                (-10 * (e.clientX - startX)) / innerWidth,
+                0,
+                (10 * (e.clientY - startY)) / innerHeight,
+            );
+            // inv[13] = preY;
+            viewMatrix = invert4(inv);
+
+            startX = e.clientX;
+            startY = e.clientY;
+        }
+    });
+    canvas.addEventListener("mouseup", (e) => {
+        e.preventDefault();
+        down = false;
+        startX = 0;
+        startY = 0;
+    });
+
+    let altX = 0,
+        altY = 0;
+    canvas.addEventListener(
+        "touchstart",
+        (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                carousel = false;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                down = 1;
+            } else if (e.touches.length === 2) {
+                // console.log('beep')
+                carousel = false;
+                startX = e.touches[0].clientX;
+                altX = e.touches[1].clientX;
+                startY = e.touches[0].clientY;
+                altY = e.touches[1].clientY;
+                down = 1;
+            }
+        },
+        { passive: false },
+    );
+    canvas.addEventListener(
+        "touchmove",
+        (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1 && down) {
+                let inv = invert4(viewMatrix);
+                let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
+                let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
+
+                let d = 4;
+                inv = translate4(inv, 0, 0, d);
+                // inv = translate4(inv,  -x, -y, -z);
+                // inv = translate4(inv,  x, y, z);
+                inv = rotate4(inv, dx, 0, 1, 0);
+                inv = rotate4(inv, -dy, 1, 0, 0);
+                inv = translate4(inv, 0, 0, -d);
+
+                viewMatrix = invert4(inv);
+
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                // alert('beep')
+                const dtheta =
+                    Math.atan2(startY - altY, startX - altX) -
+                    Math.atan2(
+                        e.touches[0].clientY - e.touches[1].clientY,
+                        e.touches[0].clientX - e.touches[1].clientX,
+                    );
+                const dscale =
+                    Math.hypot(startX - altX, startY - altY) /
+                    Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY,
+                    );
+                const dx =
+                    (e.touches[0].clientX +
+                        e.touches[1].clientX -
+                        (startX + altX)) /
+                    2;
+                const dy =
+                    (e.touches[0].clientY +
+                        e.touches[1].clientY -
+                        (startY + altY)) /
+                    2;
+                let inv = invert4(viewMatrix);
+                // inv = translate4(inv,  0, 0, d);
+                inv = rotate4(inv, dtheta, 0, 0, 1);
+
+                inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
+
+                // let preY = inv[13];
+                inv = translate4(inv, 0, 0, 3 * (1 - dscale));
+                // inv[13] = preY;
+
+                viewMatrix = invert4(inv);
+
+                startX = e.touches[0].clientX;
+                altX = e.touches[1].clientX;
+                startY = e.touches[0].clientY;
+                altY = e.touches[1].clientY;
+            }
+        },
+        { passive: false },
+    );
+    canvas.addEventListener(
+        "touchend",
+        (e) => {
+            e.preventDefault();
+            down = false;
+            startX = 0;
+            startY = 0;
+        },
+        { passive: false },
+    );
+
     let jumpDelta = 0;
+    let vertexCount = 0;
+
     let lastFrame = 0;
     let avgFps = 0;
     let start = 0;
+
+    window.addEventListener("gamepadconnected", (e) => {
+        const gp = navigator.getGamepads()[e.gamepad.index];
+        console.log(
+            `Gamepad connected at index ${gp.index}: ${gp.id}. It has ${gp.buttons.length} buttons and ${gp.axes.length} axes.`,
+        );
+    });
+    window.addEventListener("gamepaddisconnected", (e) => {
+        console.log("Gamepad disconnected");
+    });
+
     let leftGamepadTrigger, rightGamepadTrigger;
 
     const frame = (now) => {
-        // (여기도 원본 로직 유지 - 질문에 있는 frame() 내용 그대로 두면 됩니다)
-        // 단, progress 계산에서 splatData가 아직 없을 수 있으니 가드 추가
-        // 아래는 최소 가드만 넣은 형태로 예시:
+        let inv = invert4(viewMatrix);
+        let shiftKey =
+            activeKeys.includes("Shift") ||
+            activeKeys.includes("ShiftLeft") ||
+            activeKeys.includes("ShiftRight");
+
+        if (activeKeys.includes("ArrowUp")) {
+            if (shiftKey) {
+                inv = translate4(inv, 0, -0.03, 0);
+            } else {
+                inv = translate4(inv, 0, 0, 0.1);
+            }
+        }
+        if (activeKeys.includes("ArrowDown")) {
+            if (shiftKey) {
+                inv = translate4(inv, 0, 0.03, 0);
+            } else {
+                inv = translate4(inv, 0, 0, -0.1);
+            }
+        }
+        if (activeKeys.includes("ArrowLeft"))
+            inv = translate4(inv, -0.03, 0, 0);
+        //
+        if (activeKeys.includes("ArrowRight"))
+            inv = translate4(inv, 0.03, 0, 0);
+        // inv = rotate4(inv, 0.01, 0, 1, 0);
+        if (activeKeys.includes("KeyA")) inv = rotate4(inv, -0.01, 0, 1, 0);
+        if (activeKeys.includes("KeyD")) inv = rotate4(inv, 0.01, 0, 1, 0);
+        if (activeKeys.includes("KeyQ")) inv = rotate4(inv, 0.01, 0, 0, 1);
+        if (activeKeys.includes("KeyE")) inv = rotate4(inv, -0.01, 0, 0, 1);
+        if (activeKeys.includes("KeyW")) inv = rotate4(inv, 0.005, 1, 0, 0);
+        if (activeKeys.includes("KeyS")) inv = rotate4(inv, -0.005, 1, 0, 0);
+
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        let isJumping = activeKeys.includes("Space");
+        for (let gamepad of gamepads) {
+            if (!gamepad) continue;
+
+            const axisThreshold = 0.1; // Threshold to detect when the axis is intentionally moved
+            const moveSpeed = 0.06;
+            const rotateSpeed = 0.02;
+
+            // Assuming the left stick controls translation (axes 0 and 1)
+            if (Math.abs(gamepad.axes[0]) > axisThreshold) {
+                inv = translate4(inv, moveSpeed * gamepad.axes[0], 0, 0);
+                carousel = false;
+            }
+            if (Math.abs(gamepad.axes[1]) > axisThreshold) {
+                inv = translate4(inv, 0, 0, -moveSpeed * gamepad.axes[1]);
+                carousel = false;
+            }
+            if (gamepad.buttons[12].pressed || gamepad.buttons[13].pressed) {
+                inv = translate4(
+                    inv,
+                    0,
+                    -moveSpeed *
+                        (gamepad.buttons[12].pressed -
+                            gamepad.buttons[13].pressed),
+                    0,
+                );
+                carousel = false;
+            }
+
+            if (gamepad.buttons[14].pressed || gamepad.buttons[15].pressed) {
+                inv = translate4(
+                    inv,
+                    -moveSpeed *
+                        (gamepad.buttons[14].pressed -
+                            gamepad.buttons[15].pressed),
+                    0,
+                    0,
+                );
+                carousel = false;
+            }
+
+            // Assuming the right stick controls rotation (axes 2 and 3)
+            if (Math.abs(gamepad.axes[2]) > axisThreshold) {
+                inv = rotate4(inv, rotateSpeed * gamepad.axes[2], 0, 1, 0);
+                carousel = false;
+            }
+            if (Math.abs(gamepad.axes[3]) > axisThreshold) {
+                inv = rotate4(inv, -rotateSpeed * gamepad.axes[3], 1, 0, 0);
+                carousel = false;
+            }
+
+            let tiltAxis = gamepad.buttons[6].value - gamepad.buttons[7].value;
+            if (Math.abs(tiltAxis) > axisThreshold) {
+                inv = rotate4(inv, rotateSpeed * tiltAxis, 0, 0, 1);
+                carousel = false;
+            }
+            if (gamepad.buttons[4].pressed && !leftGamepadTrigger) {
+                camera =
+                    cameras[(cameras.indexOf(camera) + 1) % cameras.length];
+                inv = invert4(getViewMatrix(camera));
+                carousel = false;
+            }
+            if (gamepad.buttons[5].pressed && !rightGamepadTrigger) {
+                camera =
+                    cameras[
+                        (cameras.indexOf(camera) + cameras.length - 1) %
+                            cameras.length
+                    ];
+                inv = invert4(getViewMatrix(camera));
+                carousel = false;
+            }
+            leftGamepadTrigger = gamepad.buttons[4].pressed;
+            rightGamepadTrigger = gamepad.buttons[5].pressed;
+            if (gamepad.buttons[0].pressed) {
+                isJumping = true;
+                carousel = false;
+            }
+            if (gamepad.buttons[3].pressed) {
+                carousel = true;
+            }
+        }
+
+        if (
+            ["KeyJ", "KeyK", "KeyL", "KeyI"].some((k) => activeKeys.includes(k))
+        ) {
+            let d = 4;
+            inv = translate4(inv, 0, 0, d);
+            inv = rotate4(
+                inv,
+                activeKeys.includes("KeyJ")
+                    ? -0.05
+                    : activeKeys.includes("KeyL")
+                      ? 0.05
+                      : 0,
+                0,
+                1,
+                0,
+            );
+            inv = rotate4(
+                inv,
+                activeKeys.includes("KeyI")
+                    ? 0.05
+                    : activeKeys.includes("KeyK")
+                      ? -0.05
+                      : 0,
+                1,
+                0,
+                0,
+            );
+            inv = translate4(inv, 0, 0, -d);
+        }
+
+        viewMatrix = invert4(inv);
+
+        if (carousel) {
+            let inv = invert4(defaultViewMatrix);
+
+            const t = Math.sin((Date.now() - start) / 5000);
+            inv = translate4(inv, 2.5 * t, 0, 6 * (1 - Math.cos(t)));
+            inv = rotate4(inv, -0.6 * t, 0, 1, 0);
+
+            viewMatrix = invert4(inv);
+        }
+
+        if (isJumping) {
+            jumpDelta = Math.min(1, jumpDelta + 0.05);
+        } else {
+            jumpDelta = Math.max(0, jumpDelta - 0.05);
+        }
+
+        let inv2 = invert4(viewMatrix);
+        inv2 = translate4(inv2, 0, -jumpDelta, 0);
+        inv2 = rotate4(inv2, -0.1 * jumpDelta, 1, 0, 0);
+        let actualViewMatrix = invert4(inv2);
+
+        const viewProj = multiply4(projectionMatrix, actualViewMatrix);
+        worker.postMessage({ view: viewProj });
 
         const currentFps = 1000 / (now - lastFrame) || 0;
         avgFps = avgFps * 0.9 + currentFps * 0.1;
 
         if (vertexCount > 0) {
             document.getElementById("spinner").style.display = "none";
-            // gl.uniformMatrix4fv(u_view, false, actualViewMatrix);  // 원본대로
+            gl.uniformMatrix4fv(u_view, false, actualViewMatrix);
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
         } else {
@@ -984,27 +1355,27 @@ async function main() {
             document.getElementById("spinner").style.display = "";
             start = Date.now() + 2000;
         }
-
-        // ✅ splatData 아직 없으면 progress 계산 스킵
-        if (splatData) {
-            const progress = (100 * vertexCount) / (splatData.length / rowLength);
-            if (progress < 100) {
-                document.getElementById("progress").style.width = progress + "%";
-            } else {
-                document.getElementById("progress").style.display = "none";
-            }
+        const progress = (100 * vertexCount) / (splatData.length / rowLength);
+        if (progress < 100) {
+            document.getElementById("progress").style.width = progress + "%";
+        } else {
+            document.getElementById("progress").style.display = "none";
         }
-
         fps.innerText = Math.round(avgFps) + " fps";
-        if (isNaN(currentCameraIndex)) camid.innerText = "";
+        if (isNaN(currentCameraIndex)) {
+            camid.innerText = "";
+        }
         lastFrame = now;
         requestAnimationFrame(frame);
     };
 
     frame();
 
-    const isPly = (s) =>
-        s[0] == 112 && s[1] == 108 && s[2] == 121 && s[3] == 10;
+    const isPly = (splatData) =>
+        splatData[0] == 112 &&
+        splatData[1] == 108 &&
+        splatData[2] == 121 &&
+        splatData[3] == 10;
 
     const selectFile = (file) => {
         const fr = new FileReader();
@@ -1019,6 +1390,7 @@ async function main() {
                     canvas.height,
                 );
                 gl.uniformMatrix4fv(u_projection, false, projectionMatrix);
+
                 console.log("Loaded Cameras");
             };
             fr.readAsText(file);
@@ -1029,6 +1401,7 @@ async function main() {
                 console.log("Loaded", Math.floor(splatData.length / rowLength));
 
                 if (isPly(splatData)) {
+                    // ply file magic header means it should be handled differently
                     worker.postMessage({ ply: splatData.buffer, save: true });
                 } else {
                     worker.postMessage({
@@ -1041,7 +1414,7 @@ async function main() {
         }
     };
 
-    window.addEventListener("hashchange", () => {
+    window.addEventListener("hashchange", (e) => {
         try {
             viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
             carousel = false;
@@ -1061,25 +1434,27 @@ async function main() {
         selectFile(e.dataTransfer.files[0]);
     });
 
-    // ==========================
-    // ✅ B안: 스트림 읽기 (chunks 누적)
-    // ==========================
+    let chunks = [];
+    let bytesRead = 0;
+    let lastVertexCount = -1;
+    let stopLoading = false;
+    
     while (true) {
         const { done, value } = await reader.read();
         if (done || stopLoading) break;
-
+    
         chunks.push(value);
         bytesRead += value.byteLength;
-
-        // 진행률은 expectedBytes가 있을 때만 "참고"로 표시
+    
+        const contentLengthHeader = req.headers.get("content-length");
+        const expectedBytes = contentLengthHeader ? parseInt(contentLengthHeader) : null;
         if (expectedBytes) {
             const progress = Math.min(100, (100 * bytesRead) / expectedBytes);
             const bar = document.getElementById("progress");
             if (bar) bar.style.width = progress + "%";
         }
     }
-
-    // 최종 버퍼로 합치기
+    
     if (!stopLoading) {
         splatData = new Uint8Array(bytesRead);
         let offset = 0;
@@ -1087,21 +1462,16 @@ async function main() {
             splatData.set(c, offset);
             offset += c.byteLength;
         }
-
-        // downsample은 여기서 결정 (splatData 준비된 이후)
+    
         downsample = splatData.length / rowLength > 500000 ? 1 : 1 / devicePixelRatio;
-        resize(); // downsample 반영
-
-        console.log("Final bytes:", splatData.byteLength);
-        console.log("Vertices:", Math.floor(splatData.length / rowLength));
-        console.log("Header expectedBytes:", expectedBytes);
-
+        resize();
+    
         if (isPly(splatData)) {
             worker.postMessage({ ply: splatData.buffer, save: false });
         } else {
             worker.postMessage({
                 buffer: splatData.buffer,
-                vertexCount: Math.floor(splatData.length / rowLength),
+                vertexCount: Math.floor(bytesRead / rowLength),
             });
         }
     }
