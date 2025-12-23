@@ -35,6 +35,7 @@ ROS 기반 SLAM/Planner가 만들어낸 **주행/지도 결과**를 받아, **ST
 
 ### Qt
 - MQTT 구독 기반의 통합 대시보드 구현
+<img src="./images/QtScreen.png" height="400">
   - Map Viewer(맵 + shot/pose 오버레이)
   - Camera Viewer(HTTP 이미지 로드)
   - Logs(상태/이벤트 기록)
