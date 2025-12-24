@@ -6,7 +6,9 @@
 - `QT/` : MQTT 구독 기반 GUI. 맵 렌더링/카메라 표시/로그/게이지 통합
 - `ST Motor/` : 하드웨어 결선/핀맵/전원 구성 등 모터 시스템 물리 구성 문서화
 - `MQTT_Interface_Spec.md` : MQTT 토픽/JSON payload 명세(시스템 인터페이스 기준 문서)
-
+- `gaussian-splatting/` : 3D Gaussian Splatting 모델 학습 파이프라인. 이미지 전처리(Colmap)부터 학습, URL 배포를 위한 데이터 가공 코드 포함
+- `models/` : 학습 완료 후 웹 뷰어에서 로드 가능한 형태(.splat)로 변환된 모델 파일 저장소
+- `gif/` : 리드미 및 문서화를 위한 모델 구동 예시(애니메이션 GIF) 수록
 
 
 ## 1. 자율 주행
