@@ -9,6 +9,7 @@
 class MotorBridgeNode : public rclcpp::Node {
 public:
     MotorBridgeNode();
+    ~MotorBridgeNode() override;
 
 private:
     void on_cmd_vel(const geometry_msgs::msg::Twist::SharedPtr msg);
@@ -17,6 +18,7 @@ private:
 
     void on_timer();
     std::string build_motor_cmd_json(const rc_car::DriveCmd& cmd, bool enable, bool estop) const;
+    void log_virtual_uart(double v, double w, const rc_car::DriveCmd& cmd);
 
 private:
     // params
@@ -44,6 +46,9 @@ private:
 
     bool enable_ = true;
     bool estop_ = false;
+
+    bool uart_virtual_ = false;
+    uint8_t virtual_seq_ = 0;
 
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr sub_cmd_vel_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr sub_enable_;
