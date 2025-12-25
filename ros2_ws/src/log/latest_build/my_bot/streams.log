@@ -1,0 +1,44 @@
+[3.510s] Invoking command in '/home/ssafy/ros2_ws/src/my_bot': PYTHONPATH=/home/ssafy/ros2_ws/src/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/my_bot build --build-base /home/ssafy/ros2_ws/src/build/my_bot/build install --record /home/ssafy/ros2_ws/src/build/my_bot/install.log --single-version-externally-managed install_data
+[4.955s] running egg_info
+[4.957s] creating ../build/my_bot/my_bot.egg-info
+[4.958s] writing ../build/my_bot/my_bot.egg-info/PKG-INFO
+[4.959s] writing dependency_links to ../build/my_bot/my_bot.egg-info/dependency_links.txt
+[4.960s] writing entry points to ../build/my_bot/my_bot.egg-info/entry_points.txt
+[4.961s] writing requirements to ../build/my_bot/my_bot.egg-info/requires.txt
+[4.962s] writing top-level names to ../build/my_bot/my_bot.egg-info/top_level.txt
+[4.963s] writing manifest file '../build/my_bot/my_bot.egg-info/SOURCES.txt'
+[4.971s] reading manifest file '../build/my_bot/my_bot.egg-info/SOURCES.txt'
+[4.975s] writing manifest file '../build/my_bot/my_bot.egg-info/SOURCES.txt'
+[4.976s] running build
+[4.976s] running build_py
+[4.977s] creating /home/ssafy/ros2_ws/src/build/my_bot/build
+[4.978s] creating /home/ssafy/ros2_ws/src/build/my_bot/build/lib
+[4.978s] creating /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot
+[4.979s] copying my_bot/__init__.py -> /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot
+[4.979s] copying my_bot/serial_bridge.py -> /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot
+[4.980s] copying my_bot/converter.py -> /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot
+[4.981s] running install
+[4.982s] running install_lib
+[4.986s] creating /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot
+[4.987s] copying /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot/__init__.py -> /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot
+[4.987s] copying /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot/serial_bridge.py -> /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot
+[4.988s] copying /home/ssafy/ros2_ws/src/build/my_bot/build/lib/my_bot/converter.py -> /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot
+[4.996s] byte-compiling /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot/__init__.py to __init__.cpython-310.pyc
+[4.997s] byte-compiling /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot/serial_bridge.py to serial_bridge.cpython-310.pyc
+[5.000s] byte-compiling /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot/converter.py to converter.cpython-310.pyc
+[5.003s] running install_data
+[5.004s] creating /home/ssafy/ros2_ws/src/install/my_bot/share/ament_index
+[5.004s] creating /home/ssafy/ros2_ws/src/install/my_bot/share/ament_index/resource_index
+[5.005s] creating /home/ssafy/ros2_ws/src/install/my_bot/share/ament_index/resource_index/packages
+[5.005s] copying resource/my_bot -> /home/ssafy/ros2_ws/src/install/my_bot/share/ament_index/resource_index/packages
+[5.006s] copying package.xml -> /home/ssafy/ros2_ws/src/install/my_bot/share/my_bot
+[5.007s] creating /home/ssafy/ros2_ws/src/install/my_bot/share/my_bot/launch
+[5.007s] copying launch/robot_state.launch.py -> /home/ssafy/ros2_ws/src/install/my_bot/share/my_bot/launch
+[5.008s] creating /home/ssafy/ros2_ws/src/install/my_bot/share/my_bot/urdf
+[5.009s] copying urdf/my_bot.urdf -> /home/ssafy/ros2_ws/src/install/my_bot/share/my_bot/urdf
+[5.009s] running install_egg_info
+[5.017s] Copying ../build/my_bot/my_bot.egg-info to /home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages/my_bot-0.0.0-py3.10.egg-info
+[5.024s] running install_scripts
+[5.119s] Installing serial_bridge script to /home/ssafy/ros2_ws/src/install/my_bot/lib/my_bot
+[5.121s] writing list of installed files to '/home/ssafy/ros2_ws/src/build/my_bot/install.log'
+[5.280s] Invoked command in '/home/ssafy/ros2_ws/src/my_bot' returned '0': PYTHONPATH=/home/ssafy/ros2_ws/src/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/src/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/my_bot build --build-base /home/ssafy/ros2_ws/src/build/my_bot/build install --record /home/ssafy/ros2_ws/src/build/my_bot/install.log --single-version-externally-managed install_data

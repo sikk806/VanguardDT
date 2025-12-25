@@ -1,0 +1,17 @@
+[4.126s] Invoking command in '/home/ssafy/ros2_ws/build/my_bot': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ssafy/ros2_ws/build/my_bot/build --no-deps symlink_data
+[5.585s] running develop
+[6.655s] running egg_info
+[6.656s] writing my_bot.egg-info/PKG-INFO
+[6.657s] writing dependency_links to my_bot.egg-info/dependency_links.txt
+[6.658s] writing entry points to my_bot.egg-info/entry_points.txt
+[6.659s] writing requirements to my_bot.egg-info/requires.txt
+[6.659s] writing top-level names to my_bot.egg-info/top_level.txt
+[6.667s] reading manifest file 'my_bot.egg-info/SOURCES.txt'
+[6.673s] writing manifest file 'my_bot.egg-info/SOURCES.txt'
+[6.679s] running build_ext
+[6.680s] Creating /home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages/my-bot.egg-link (link to .)
+[6.684s] Installing serial_bridge script to /home/ssafy/ros2_ws/install/my_bot/lib/my_bot
+[6.685s] 
+[6.686s] Installed /home/ssafy/ros2_ws/build/my_bot
+[6.686s] running symlink_data
+[6.826s] Invoked command in '/home/ssafy/ros2_ws/build/my_bot' returned '0': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ssafy/ros2_ws/build/my_bot/build --no-deps symlink_data

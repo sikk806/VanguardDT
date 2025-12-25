@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <rclcpp/rclcpp.hpp>
+
 static App* g_app = nullptr;
 
 static void handleSig(int) {
@@ -10,6 +12,7 @@ static void handleSig(int) {
 }
 
 int main(int argc, char** argv) {
+    rclcpp::init(argc, argv);
     AppConfig cfg;
 
     // args: <mqtt_host> <mqtt_port> <http_port>
@@ -20,8 +23,8 @@ int main(int argc, char** argv) {
     std::signal(SIGINT, handleSig);
     std::signal(SIGTERM, handleSig);
 
-    App app(cfg);
-    g_app = &app;
+    auto app = std::make_shared<App>(cfg);
+    g_app = app.get();
 
-    return app.run();
+    return app->run();
 }

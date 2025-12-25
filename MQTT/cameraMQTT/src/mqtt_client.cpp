@@ -65,16 +65,8 @@ void MqttClient::stop() {
     connected_.store(false);
 }
 
-void MqttClient::publishCameraShot(uint64_t shotNum, const std::string& imageUrl) {
+void MqttClient::publishCameraShot(uint64_t shotNum, const std::string& imageUrl, double x, double y, double theta) {
     if (!mosq_ || !connected_.load()) return;
-
-    std::uniform_real_distribution<double> dx(-1.0, 1.0);
-    std::uniform_real_distribution<double> dy(-1.0, 1.0);
-    std::uniform_real_distribution<double> dtheta(-3.14159, 3.14159);
-
-    double x = dx(rng_);
-    double y = dy(rng_);
-    double theta = dtheta(rng_);
 
     std::string shotId = makeShotId(shotNum);
 

@@ -1,0 +1,94 @@
+[0.000000] (-) TimerEvent: {}
+[0.001201] (-) JobUnselected: {'identifier': 'sllidar_ros2'}
+[0.002588] (my_bot) JobQueued: {'identifier': 'my_bot', 'dependencies': OrderedDict()}
+[0.004303] (my_bot) JobStarted: {'identifier': 'my_bot'}
+[0.098830] (-) TimerEvent: {}
+[0.199913] (-) TimerEvent: {}
+[0.300551] (-) TimerEvent: {}
+[0.401351] (-) TimerEvent: {}
+[0.502066] (-) TimerEvent: {}
+[0.602761] (-) TimerEvent: {}
+[0.703380] (-) TimerEvent: {}
+[0.804045] (-) TimerEvent: {}
+[0.904696] (-) TimerEvent: {}
+[1.005375] (-) TimerEvent: {}
+[1.106102] (-) TimerEvent: {}
+[1.206705] (-) TimerEvent: {}
+[1.307357] (-) TimerEvent: {}
+[1.408311] (-) TimerEvent: {}
+[1.509759] (-) TimerEvent: {}
+[1.610694] (-) TimerEvent: {}
+[1.711530] (-) TimerEvent: {}
+[1.812302] (-) TimerEvent: {}
+[1.913116] (-) TimerEvent: {}
+[2.014655] (-) TimerEvent: {}
+[2.116031] (-) TimerEvent: {}
+[2.216690] (-) TimerEvent: {}
+[2.317316] (-) TimerEvent: {}
+[2.418014] (-) TimerEvent: {}
+[2.518729] (-) TimerEvent: {}
+[2.619363] (-) TimerEvent: {}
+[2.720091] (-) TimerEvent: {}
+[2.821185] (-) TimerEvent: {}
+[2.922110] (-) TimerEvent: {}
+[3.022740] (-) TimerEvent: {}
+[3.123382] (-) TimerEvent: {}
+[3.224110] (-) TimerEvent: {}
+[3.324955] (-) TimerEvent: {}
+[3.425688] (-) TimerEvent: {}
+[3.526415] (-) TimerEvent: {}
+[3.627385] (-) TimerEvent: {}
+[3.728214] (-) TimerEvent: {}
+[3.829064] (-) TimerEvent: {}
+[3.929766] (-) TimerEvent: {}
+[4.030844] (-) TimerEvent: {}
+[4.049143] (my_bot) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/ssafy/ros2_ws/build/my_bot/build', '--no-deps', 'symlink_data', '--force'], 'cwd': '/home/ssafy/ros2_ws/build/my_bot', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'ssafy', 'SSH_CLIENT': '10.38.205.48 56990 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LIBGL_ALWAYS_SOFTWARE': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'MOTD_SHOWN': 'pam', 'HOME': '/home/ssafy', 'OLDPWD': '/home/ssafy/ros2_ws/src/my_bot/my_bot', 'SSH_TTY': '/dev/pts/1', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/ssafy/ros2_ws/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'ssafy', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '229', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/home/ssafy/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'ko_KR.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'ROS_DOMAIN_ID': '30', 'AMENT_PREFIX_PATH': '/home/ssafy/ros2_ws/install/my_bot:/opt/ros/humble', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'PWD': '/home/ssafy/ros2_ws/build/my_bot', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '10.38.205.48 56990 10.38.205.160 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1'}, 'shell': False}
+[4.131012] (-) TimerEvent: {}
+[4.231682] (-) TimerEvent: {}
+[4.332590] (-) TimerEvent: {}
+[4.433487] (-) TimerEvent: {}
+[4.535038] (-) TimerEvent: {}
+[4.635836] (-) TimerEvent: {}
+[4.736603] (-) TimerEvent: {}
+[4.837278] (-) TimerEvent: {}
+[4.937957] (-) TimerEvent: {}
+[5.038583] (-) TimerEvent: {}
+[5.139262] (-) TimerEvent: {}
+[5.240007] (-) TimerEvent: {}
+[5.340621] (-) TimerEvent: {}
+[5.441353] (-) TimerEvent: {}
+[5.542090] (-) TimerEvent: {}
+[5.584042] (my_bot) StdoutLine: {'line': b'running develop\n'}
+[5.642216] (-) TimerEvent: {}
+[5.742819] (-) TimerEvent: {}
+[5.843687] (-) TimerEvent: {}
+[5.944272] (-) TimerEvent: {}
+[6.044895] (-) TimerEvent: {}
+[6.145708] (-) TimerEvent: {}
+[6.246963] (-) TimerEvent: {}
+[6.347703] (-) TimerEvent: {}
+[6.448397] (-) TimerEvent: {}
+[6.514529] (my_bot) StdoutLine: {'line': b'running egg_info\n'}
+[6.515293] (my_bot) StdoutLine: {'line': b'writing my_bot.egg-info/PKG-INFO\n'}
+[6.520505] (my_bot) StdoutLine: {'line': b'writing dependency_links to my_bot.egg-info/dependency_links.txt\n'}
+[6.521462] (my_bot) StdoutLine: {'line': b'writing entry points to my_bot.egg-info/entry_points.txt\n'}
+[6.522353] (my_bot) StdoutLine: {'line': b'writing requirements to my_bot.egg-info/requires.txt\n'}
+[6.523099] (my_bot) StdoutLine: {'line': b'writing top-level names to my_bot.egg-info/top_level.txt\n'}
+[6.533123] (my_bot) StdoutLine: {'line': b"reading manifest file 'my_bot.egg-info/SOURCES.txt'\n"}
+[6.539558] (my_bot) StdoutLine: {'line': b"writing manifest file 'my_bot.egg-info/SOURCES.txt'\n"}
+[6.545675] (my_bot) StdoutLine: {'line': b'running build_ext\n'}
+[6.546638] (my_bot) StdoutLine: {'line': b'Creating /home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages/my-bot.egg-link (link to .)\n'}
+[6.548515] (-) TimerEvent: {}
+[6.550521] (my_bot) StdoutLine: {'line': b'Installing serial_bridge script to /home/ssafy/ros2_ws/install/my_bot/lib/my_bot\n'}
+[6.551975] (my_bot) StdoutLine: {'line': b'\n'}
+[6.552620] (my_bot) StdoutLine: {'line': b'Installed /home/ssafy/ros2_ws/build/my_bot\n'}
+[6.553037] (my_bot) StdoutLine: {'line': b'running symlink_data\n'}
+[6.553602] (my_bot) StdoutLine: {'line': b'symbolically linking /home/ssafy/ros2_ws/build/my_bot/resource/my_bot -> /home/ssafy/ros2_ws/install/my_bot/share/ament_index/resource_index/packages\n'}
+[6.554175] (my_bot) StdoutLine: {'line': b'symbolically linking /home/ssafy/ros2_ws/build/my_bot/package.xml -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot\n'}
+[6.554774] (my_bot) StdoutLine: {'line': b'symbolically linking /home/ssafy/ros2_ws/build/my_bot/launch/robot_state.launch.py -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot/launch\n'}
+[6.555233] (my_bot) StdoutLine: {'line': b'symbolically linking /home/ssafy/ros2_ws/build/my_bot/urdf/my_bot.urdf -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot/urdf\n'}
+[6.648895] (-) TimerEvent: {}
+[6.689037] (my_bot) CommandEnded: {'returncode': 0}
+[6.749098] (-) TimerEvent: {}
+[6.777894] (my_bot) JobEnded: {'identifier': 'my_bot', 'rc': 0}
+[6.781095] (-) EventReactorShutdown: {}

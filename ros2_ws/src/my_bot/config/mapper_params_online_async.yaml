@@ -1,0 +1,28 @@
+slam_toolbox:
+  ros__parameters:
+    # 오도메트리 없이 작동
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    
+    # 스캔 매칭 설정 강화
+    use_scan_matching: true
+    use_scan_barycenter: true
+    minimum_travel_distance: 0.01    # 10cm 이동마다 업데이트
+    minimum_travel_heading: 0.01     # 약 6도 회전마다 업데이트
+    
+    # 라이다 범위 수정 (경고 메시지 기반)
+    minimum_range: 0.2
+    maximum_range: 12.0
+    
+    # Loop closure 설정
+    loop_search_maximum_distance: 3.0
+    do_loop_closing: true
+    loop_match_minimum_chain_size: 10
+    
+    # 해상도 조정 (손으로 천천히 움직이므로)
+    resolution: 0.05
+    
+    # Transform timeout 증가
+    tf_buffer_durcation: 30.0
+    transform_timeout: 0.5

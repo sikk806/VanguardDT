@@ -1,0 +1,10 @@
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/uninstall.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/rpi_cam_uninstall.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/rpi_cam.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/test.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/edit_cache.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/rebuild_cache.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/list_install_components.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/install.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/install/local.dir
+/home/ssafy/repo-split-work/temp-repo/MQTT/cameraMQTT/build/CMakeFiles/install/strip.dir

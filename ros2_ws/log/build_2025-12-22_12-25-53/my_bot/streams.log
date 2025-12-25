@@ -1,0 +1,28 @@
+[2.784s] Invoking command in '/home/ssafy/ros2_ws/build/my_bot': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ssafy/ros2_ws/build/my_bot/build --no-deps symlink_data
+[3.915s] running develop
+[4.654s] running egg_info
+[4.655s] creating my_bot.egg-info
+[4.655s] writing my_bot.egg-info/PKG-INFO
+[4.656s] writing dependency_links to my_bot.egg-info/dependency_links.txt
+[4.657s] writing entry points to my_bot.egg-info/entry_points.txt
+[4.657s] writing requirements to my_bot.egg-info/requires.txt
+[4.658s] writing top-level names to my_bot.egg-info/top_level.txt
+[4.658s] writing manifest file 'my_bot.egg-info/SOURCES.txt'
+[4.665s] reading manifest file 'my_bot.egg-info/SOURCES.txt'
+[4.667s] writing manifest file 'my_bot.egg-info/SOURCES.txt'
+[4.673s] running build_ext
+[4.674s] Creating /home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages/my-bot.egg-link (link to .)
+[4.678s] Installing converter script to /home/ssafy/ros2_ws/install/my_bot/lib/my_bot
+[4.685s] 
+[4.686s] Installed /home/ssafy/ros2_ws/build/my_bot
+[4.687s] running symlink_data
+[4.687s] creating /home/ssafy/ros2_ws/install/my_bot/share/ament_index
+[4.688s] creating /home/ssafy/ros2_ws/install/my_bot/share/ament_index/resource_index
+[4.689s] creating /home/ssafy/ros2_ws/install/my_bot/share/ament_index/resource_index/packages
+[4.691s] symbolically linking /home/ssafy/ros2_ws/build/my_bot/resource/my_bot -> /home/ssafy/ros2_ws/install/my_bot/share/ament_index/resource_index/packages
+[4.692s] symbolically linking /home/ssafy/ros2_ws/build/my_bot/package.xml -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot
+[4.694s] creating /home/ssafy/ros2_ws/install/my_bot/share/my_bot/launch
+[4.695s] symbolically linking /home/ssafy/ros2_ws/build/my_bot/launch/robot_state.launch.py -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot/launch
+[4.696s] creating /home/ssafy/ros2_ws/install/my_bot/share/my_bot/urdf
+[4.698s] symbolically linking /home/ssafy/ros2_ws/build/my_bot/urdf/my_bot.urdf -> /home/ssafy/ros2_ws/install/my_bot/share/my_bot/urdf
+[4.827s] Invoked command in '/home/ssafy/ros2_ws/build/my_bot' returned '0': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/ssafy/ros2_ws/build/my_bot/build --no-deps symlink_data

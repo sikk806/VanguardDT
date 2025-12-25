@@ -1,0 +1,21 @@
+[3.422s] Invoking command in '/home/ssafy/ros2_ws/src/my_bot': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_bot build --build-base /home/ssafy/ros2_ws/build/my_bot/build install --record /home/ssafy/ros2_ws/build/my_bot/install.log --single-version-externally-managed install_data
+[4.827s] running egg_info
+[4.831s] writing ../../build/my_bot/my_bot.egg-info/PKG-INFO
+[4.833s] writing dependency_links to ../../build/my_bot/my_bot.egg-info/dependency_links.txt
+[4.838s] writing entry points to ../../build/my_bot/my_bot.egg-info/entry_points.txt
+[4.839s] writing requirements to ../../build/my_bot/my_bot.egg-info/requires.txt
+[4.839s] writing top-level names to ../../build/my_bot/my_bot.egg-info/top_level.txt
+[4.847s] reading manifest file '../../build/my_bot/my_bot.egg-info/SOURCES.txt'
+[4.851s] writing manifest file '../../build/my_bot/my_bot.egg-info/SOURCES.txt'
+[4.852s] running build
+[4.853s] running build_py
+[4.855s] running install
+[4.856s] running install_lib
+[4.869s] running install_data
+[4.869s] running install_egg_info
+[4.875s] removing '/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages/my_bot-0.0.0-py3.10.egg-info' (and everything under it)
+[4.877s] Copying ../../build/my_bot/my_bot.egg-info to /home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages/my_bot-0.0.0-py3.10.egg-info
+[4.882s] running install_scripts
+[4.963s] Installing serial_bridge script to /home/ssafy/ros2_ws/install/my_bot/lib/my_bot
+[4.965s] writing list of installed files to '/home/ssafy/ros2_ws/build/my_bot/install.log'
+[5.101s] Invoked command in '/home/ssafy/ros2_ws/src/my_bot' returned '0': PYTHONPATH=/home/ssafy/ros2_ws/build/my_bot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssafy/ros2_ws/install/my_bot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_bot build --build-base /home/ssafy/ros2_ws/build/my_bot/build install --record /home/ssafy/ros2_ws/build/my_bot/install.log --single-version-externally-managed install_data

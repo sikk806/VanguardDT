@@ -37,8 +37,8 @@ MotorBridgeNode::MotorBridgeNode()
     this->declare_parameter<std::string>("enable_topic", "");
     this->declare_parameter<std::string>("estop_topic",  "");
 
-    this->declare_parameter<double>("speed_gain", 80.0);
-    this->declare_parameter<double>("steer_gain", 60.0);
+    this->declare_parameter<double>("speed_gain", 200.0);
+    this->declare_parameter<double>("steer_gain", 500.0);
     this->declare_parameter<int>("send_rate_hz", 20);
     this->declare_parameter<int>("cmd_timeout_ms", 300);
 
@@ -232,7 +232,7 @@ void MotorBridgeNode::on_timer()
     steer_p = clamp_i(steer_p, -100, 100);
 
     rc_car::DriveCmd cmd{};
-    cmd.speed = (int8_t)speed_p;
+    cmd.speed = 40;
     cmd.steer = (int8_t)steer_p;
 
     uint8_t flags = 0;
@@ -274,16 +274,23 @@ void MotorBridgeNode::on_timer()
     const auto now2 = this->now();
     const double dt = (now2 - last_mqtt_pub_time_).seconds();
 
-    if (force_pub || (mqtt_rate_hz_ <= 0) || (dt >= min_period_sec)) {
-        // 2) MQTT에만 speed=40 강제
+        if (force_pub || (mqtt_rate_hz_ <= 0) || (dt >= min_period_sec))
+    {
         rc_car::DriveCmd cmd_mqtt = cmd;
 
-        // 안전상 estop이면 MQTT도 0 유지
         if (!estop_) {
-            cmd_mqtt.speed = 40;   //일단 하드코딩
+            cmd_mqtt.speed = static_cast<int8_t>(40);
+        } else {
+            cmd_mqtt.speed = 0;
+            cmd_mqtt.steer = 0;
         }
 
         const std::string payload = build_motor_cmd_json(cmd_mqtt, enable_, estop_);
         mqtt_.publish(mqtt_topic_, payload);
+
+        last_mqtt_pub_time_ = now2;
+        mqtt_inited_ = true;
+        last_mqtt_enable_ = enable_;
+        last_mqtt_estop_ = estop_;
     }
 }

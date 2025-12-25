@@ -20,7 +20,7 @@ public:
     bool isConnected() const { return connected_.load(); }
 
     // 기존 코드처럼 x,y,theta 랜덤으로 넣어서 camera_shot 발행
-    void publishCameraShot(uint64_t shotNum, const std::string& imageUrl);
+    void publishCameraShot(uint64_t shotNum, const std::string& imageUrl, double x, double y, double theta);
 
 private:
     std::string clientId_;

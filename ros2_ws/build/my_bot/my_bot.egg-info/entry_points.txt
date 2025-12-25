@@ -1,0 +1,3 @@
+[console_scripts]
+serial_bridge = my_bot.serial_bridge:main
+

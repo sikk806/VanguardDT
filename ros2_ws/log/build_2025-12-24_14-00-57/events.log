@@ -1,0 +1,4 @@
+[0.000000] (-) TimerEvent: {}
+[0.000667] (-) JobUnselected: {'identifier': 'my_bot'}
+[0.001182] (-) JobUnselected: {'identifier': 'sllidar_ros2'}
+[0.001840] (-) EventReactorShutdown: {}

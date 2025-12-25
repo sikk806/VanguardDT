@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbridge_core.a CMakeFiles/bridge_core.dir/src/utils.cpp.o CMakeFiles/bridge_core.dir/src/mqtt_pub.cpp.o CMakeFiles/bridge_core.dir/src/uart_port.cpp.o CMakeFiles/bridge_core.dir/src/motor_bridge_node.cpp.o
+/usr/bin/ranlib libbridge_core.a
