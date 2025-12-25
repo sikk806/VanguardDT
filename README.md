@@ -24,18 +24,18 @@ ROS 기반 SLAM/Planner가 만들어낸 **주행/지도 결과**를 받아, **ST
 
 **ROS 2 Humble** 환경에서 라이다 센서 데이터를 기반으로 위치를 추정하고, SLAM 및 내비게이션을 수행하여 자율 주행 시스템을 구축했습니다. 특히 휠 엔코더 없이 라이다 매칭 기술을 활용하여 정밀한 오도메트리를 구현했습니다.
 
-### 🛠 System Architecture
+### System Architecture
 - **OS:** Ubuntu 22.04 LTS (Raspberry Pi)
 - **Middleware:** ROS 2 Humble Hawksbill
 - **Sensor:** SLAMTEC RPLidar A1
 
-### 📍 Odometry Strategy (Lidar-based)
+### Odometry Strategy (Lidar-based)
 일반적인 로봇과 달리 휠 엔코더 데이터에 의존하지 않고, 라이다 스캔 매칭 기술을 도입하여 위치 추정의 정확도를 확보했습니다.
 - **Node:** `rf2o_laser_odometry`
 - **Function:** 연속적인 레이저 스캔 데이터(Laser Scan) 간의 변위를 계산하여 평면 오도메트리(Planar Odometry) 생성
 - **TF Structure:** `odom` 프레임에서 `base_link`로의 좌표 변환(TF)을 실시간 브로드캐스팅
 
-### 🗺️ SLAM & Navigation Pipeline
+### SLAM & Navigation Pipeline
 **1. Mapping (SLAM)**
 - `slam_toolbox`를 활용하여 실시간 격자 지도(Occupancy Grid Map) 생성
 - Loop Closure 기능을 통해 장시간 주행 시 발생하는 누적 위치 오차 보정
@@ -44,7 +44,7 @@ ROS 기반 SLAM/Planner가 만들어낸 **주행/지도 결과**를 받아, **ST
 - **Nav2 Stack:** Global Planner(A* 알고리즘)와 Local Planner(DWB Controller)를 연동하여 동적 장애물 회피 및 목표 지점 이동
 - **Auto Exploration:** `explore_lite` 패키지를 적용, 미탐사 영역(Frontier)을 스스로 감지하여 사용자 개입 없이 전체 지도를 완성
 
-### 🔄 Coordinate System & Data Bridge
+### Coordinate System & Data Bridge
 웹/앱 클라이언트에서 로봇의 위치를 지도의 정확한 지점에 표시하기 위해 독자적인 좌표 보정 시스템을 구축했습니다.
 
 - **TF Listener Node:** C++ 기반의 커스텀 노드가 `map` ↔ `base_link` 간의 TF 관계를 실시간 조회
